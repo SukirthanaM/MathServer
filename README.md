@@ -1,5 +1,5 @@
 # Ex.05 Design a Website for Server Side Processing
-## Date:
+## Date:2.12.24
 
 ## AIM:
  To design a website to calculate the power of a lamp filament in an incandescent bulb in the server side. 
@@ -32,13 +32,108 @@ Create a HTML file to implement form based input and output.
 Publish the website in the given URL.
 
 ## PROGRAM :
+```
+math.html
 
+<html>
+<head>
+    <title>math</title>
+    <style>
+        
+h1{
+    border: 2px solid ;
+    padding: 15px;
+    margin: 40px;
+    border-radius: 10px;
+    position: fixed;
+    top: 200px;
+    right: 1100px;
+    font-size: xx-large;
+    font-weight: bolder;
+    font-variant: small-caps;
+    font-family: Georgia;
+    color:green;
+}
+form{
+    border: 5px dashed red;
+    background-color: violet ;
+    padding: 30px;
+    margin: 10px;
+    border-radius: 20px;
+    width: 425px;
+    position: fixed;
+    top: 300px;
+    left: 527px;
+    
+}
 
+    </style>
+</head>
+<body>
+    <h1 align="center" > power of incandescent bulb </h1>
+    <form align="center" method="POST">
+    {%csrf_token%}
+     
+    <div class="power">
+        <label>INTENSITY</label>
+        <input type="text" name="intensity" value="{{i}}">
+    </div>
+    <br>
+    <div class="power">
+        <labe>RESISTANCE</label>
+        <input type="text" name="resistance" value="{{r}}">
+    </div>
+    <br>
+    <input type="submit" value="CALCULATE">
+    <br>
+    <br>
+    <div class="power">
+        <label>POWER</label>
+        <input type="text" name="POWER" value={{power}}>
+    </div>
+</form>
+</body>
+</html>
+
+urls.py
+
+from django.contrib import admin
+from django.urls import path
+from mathapp import views 
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('powerofincandescentbulb/',views.powerofincandescentbulb,name="powerofincandescentbulb"),
+    path('',views.powerofincandescentbulb,name="powerofincandescentbulbroot") 
+]
+
+views.py
+
+from django.shortcuts import render 
+def powerofincandescentbulb(request): 
+    context={} 
+    context['power'] = "0" 
+    context['i'] = "0" 
+    context['r'] = "0" 
+    if request.method == 'POST': 
+        print("POST method is used")
+        i = request.POST.get('intensity','0')
+        r = request.POST.get('resistance','0')
+        print('request=',request) 
+        print('intensity=',i) 
+        print('resistance=',r) 
+        power = (int(i)**2)*int(r) 
+        context['power'] = power 
+        context['i'] = i
+        context['r'] = r 
+        print('Power=',power) 
+    return render(request,'mathapp/math.html',context)
+
+```
 ## SERVER SIDE PROCESSING:
-
+![alt text](<server side processing screenshot.png>)
 
 ## HOMEPAGE:
 
-
+![alt text](<home page screenshot.png>)
 ## RESULT:
 The program for performing server side processing is completed successfully.
